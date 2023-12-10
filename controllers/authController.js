@@ -7,19 +7,19 @@ try {
 
    // validation
    if(!name){
-    return res.send({error:'Name is Required'})
+    return res.send({message:'Name is Required'})
    }
    if(!email){
-    return res.send({error:'Email is Required'})
+    return res.send({message:'Email is Required'})
    }
    if(!password){
-    return res.send({error:'Password is Required'})
+    return res.send({message:'Password is Required'})
    }
    if(!phone){
-    return res.send({error:'Phone is Required'})
+    return res.send({message:'Phone is Required'})
    }
    if(!address){
-    return res.send({error:'Address is Required'})
+    return res.send({message:'Address is Required'})
    }
    // check user
    const existingUser = await userModel.findOne({email})
@@ -36,7 +36,13 @@ try {
    const hashedPassword = await hashPassword(password);
 
    // save
-   const user = new userModel({name,email,phone,address,password:hashedPassword}).save();
+   const user = new userModel({
+      name,
+      email,
+      phone,
+      address,
+      password:hashedPassword
+    }).save();
    res.staus(201).send({
     success:true,
     message:'User Registered Successfuly',
@@ -89,6 +95,7 @@ export const loginController = async(req,res)=>{
         success:true,
         message:"login successfully",
         user:{
+           _id:user._id,
            name:user.name,
            email:user.email,
            phone:user.phone,
@@ -103,7 +110,7 @@ export const loginController = async(req,res)=>{
         success:false,
         message:"Error in login",
         error
-    })
+    });
  }
 };
 
@@ -111,7 +118,7 @@ export const loginController = async(req,res)=>{
 
 export const testController =(req,res)=>{
     try {
-        res.send("protected Routes"); 
+        res.send("Protected Routes"); 
     } catch (error) {
         console.log(error);
         res.send({error});
