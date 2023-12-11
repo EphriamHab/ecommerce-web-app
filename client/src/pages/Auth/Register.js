@@ -3,6 +3,7 @@ import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import Layout from '../../components/Layout/Layout'
 import {toast} from 'react-toastify'
+import "../../styles/AuthStyles.css";
 
 const Register = () => {
     const [name,setName] = useState("");
@@ -10,6 +11,7 @@ const Register = () => {
     const [password,setPassword] = useState("");
     const [phone,setPhone] = useState("");
     const [address,setAddress] = useState("");
+    const [answer,setAnswer] = useState("");
     const navigate = useNavigate()
 
     //form function
@@ -17,7 +19,7 @@ const Register = () => {
         e.preventDefault();
         try {
            const res = await axios.post(`/api/v1/auth/register`,
-           { name,email,password,phone,address}
+           { name,email,password,phone,address,answer}
         );
         if(res.data.success){
             toast.success(res.data.message);
@@ -32,7 +34,7 @@ const Register = () => {
     }
   return (
     <Layout title={'Register - Ecommerce App'}>
-     <div className='register'>
+     <div className="form-container">
      <h1>Register</h1>
      <form onSubmit={handleSubmit}>
         <div className="mb-3">
@@ -83,6 +85,16 @@ const Register = () => {
         className="form-control"
         id="exampleInputEmail1"
         placeholder='Enter Your Address'
+        required/>
+      </div>
+      <div className="mb-3">
+      <input
+        type="text" 
+        value={answer}
+        onChange={(e)=>setAnswer(e.target.value)}
+        className="form-control"
+        id="exampleInputEmail1"
+        placeholder='what is your favorite sports'
         required/>
       </div>
       <div className="mb-3">
