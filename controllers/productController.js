@@ -98,7 +98,9 @@ export const getSingleProductController = async (req, res) => {
 
 export const productPhotoController = async (req, res) => {
     try {
-        const product = ProductModel.findById(req, parms.pid).select("photo")
+        const product = await ProductModel
+        .findById(req.params.pid)
+        .select("photo")
         if (product.photo.data) {
             res.set('Content-type', product.photo.contentType)
             return res.status(200).send(product.photo.data)
@@ -133,7 +135,7 @@ export const deleteProductController = async (req, res) => {
 
 export const updateProductController = async (req, res) => {
     try {
-        const { name, description, price, category, quantity } = req.fields
+        const { name, description, price, category, quantity,shipping } = req.fields
         const { photo } = req.files
 
         //validation
@@ -148,14 +150,14 @@ export const updateProductController = async (req, res) => {
                 return res.status(500).send({ error: "Category is Required" });
             case !quantity:
                 return res.status(500).send({ error: "Quantity is Required" });
-            case photo && photo.size > 10000:
+            case photo && photo.size > 1000000:
                 return res
                     .status(500)
                     .send({ error: "Photo is Required and should be less than 1mb" });
         }
-        const products = await ProductModel.findById(req.params.pid, {
+        const products = await ProductModel.findByIdAndUpdate(req.params.pid, {
             ...req.fields, slug: slugify(name)
-        }, { new: true`` }
+        }, { new: true }
         )
         if (photo) {
             products.photo.data = fs.readFileSync(photo.path)
@@ -171,8 +173,32 @@ export const updateProductController = async (req, res) => {
         console.log(error);
         res.status(500).send({
             success: false,
-            error,
-            message: "Error in update product"
+            error: error.message || "Internal Server Error",
+            message: "Error in updating product",
         })
     }
+}
+
+//product filter controllers
+
+export const productFlitersController = async(req,res)=>{
+  try {
+    const {checked,radio} = req.body
+    let args = {}
+    if(checked.length > 0) args.category = checked
+    if (radio.length) args.price = { $gte: radio[0], $lte: radio[1] };
+    const products = await productModel.find(args);
+    res.status(200).send({
+      success: true,
+      products,
+    });
+
+  } catch (error) {
+    console.log(error)
+    res.status(400).send({
+        success:false,
+        error,
+        message:"Error in Filtering Product"
+    })
+  }
 }
