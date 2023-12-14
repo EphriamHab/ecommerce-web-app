@@ -11,7 +11,7 @@ const Products = () => {
   //get all products
   const getAllProducts = async () => {
     try {
-      const { data } = await axios.get("api/v1/product/get-product");
+      const { data } = await axios.get("/api/v1/product/get-product");
       setPoducts(data.products);
     } catch (error) {
       console.log(error);
