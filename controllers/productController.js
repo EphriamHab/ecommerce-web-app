@@ -1,6 +1,8 @@
 import slugify from "slugify"
 import ProductModel from "../models/ProductModel.js"
+import CategoryModel from "../models/CategoryModel.js"
 import fs from 'fs'
+import { populate } from "dotenv"
 
 export const createProductController = async (req, res) => {
     try {
@@ -289,4 +291,24 @@ export const relatedProductController = async(req,res)=>{
             error
         })
     }
+}
+
+export const productCategoryController = async(req,res)=>{
+        try {
+          const category = await CategoryModel.findOne({slug:req.params.slug})
+          const products = await  ProductModel.find({category}).populate('category')
+          res.status(200).send({
+             success:true,
+             category,
+             products,
+
+          })
+        } catch (error) {
+            console.log(error)
+            res.status(400).send({
+                success:false,
+                error,
+                message:"Error while getting product "
+            })
+        }
 }
