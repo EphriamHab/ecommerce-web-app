@@ -1,24 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import {BrowserRouter} from 'react-router-dom';
-import { Authprovider } from './context/Auth';
-import { Searchprovider } from './context/Search';
-import 'antd/dist/reset.css'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { BrowserRouter } from "react-router-dom";
+import { Authprovider } from "./context/Auth";
+import { Searchprovider } from "./context/Search";
+import "antd/dist/reset.css";
+import { Cartprovider } from "./context/cart";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Authprovider>
     <Searchprovider>
-    <BrowserRouter>
-       <App />
-     </BrowserRouter>
+      <Cartprovider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Cartprovider>
     </Searchprovider>
   </Authprovider>
-  
-
 );
 
 // If you want to start measuring performance in your app, pass a function
