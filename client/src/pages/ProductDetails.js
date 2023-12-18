@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import axios from "axios";
 import { useParams,useNavigate } from "react-router-dom";
+import "../styles/ProductDetailsStyles.css";
 
 const ProductDetails = () => {
   const params = useParams();
@@ -55,7 +56,6 @@ const ProductDetails = () => {
           <h6>Description: {product.description}</h6>
           <h6>Price: {product.price}</h6>
           <h6>Category: {product?.category?.name}</h6>
-          <h6>Shipping: {product.shipping}</h6>
           <button className="btn btn-secondary ms-1">ADD TO CART</button>
         </div>
       </div>
