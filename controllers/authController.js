@@ -243,6 +243,21 @@ export const getAllOrdersController = async(req,res)=>{
    }
 }
 
+// get all users
+export const getAllUsersController = async(req,res) =>{
+     try {
+      const users = await userModel.find({})
+      res.status(200).json(users)
+     } catch (error) {
+        console.log(error)
+        res.status(500).send({
+          success:false,
+          error,
+          message:"Error in Fetching user"
+        })
+     }
+}
+
 //order status update
 export const orderStatusController = async(req,res) =>{
       try {
