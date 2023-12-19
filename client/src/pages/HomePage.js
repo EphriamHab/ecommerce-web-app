@@ -70,7 +70,22 @@ const HomePage = () => {
       setLoading(true);
       const { data } = await axios.get(`/api/v1/product/product-list/${page}`);
       setLoading(false);
-      setProducts([...products, ...data?.products]);
+
+      const updatedProducts = data?.products.map((newProduct) => {
+        const existingProductIndex = products.findIndex(
+          (product) => product._id === newProduct._id
+        );
+
+        if (existingProductIndex !== -1) {
+          const updatedProduct = { ...products[existingProductIndex] };
+          updatedProduct.quantity += newProduct.quantity;
+          return updatedProduct;
+        } else {
+          return newProduct;
+        }
+      });
+
+      setProducts([...products, ...updatedProducts]);
     } catch (error) {
       console.log(error);
       setLoading(false);
@@ -200,7 +215,7 @@ const HomePage = () => {
           <div className="m-2 p-3">
             {products && products.length < total && (
               <button
-                className="btn btn-warning"
+                className="btn loadmore"
                 onClick={(e) => {
                   e.preventDefault();
                   setPage(page + 1);
