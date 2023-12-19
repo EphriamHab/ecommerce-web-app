@@ -79,3 +79,16 @@ filters
   font-weight: bold;
   font-size: 20px !important;
 }
+.btn-width{
+  width: 200px;
+}
+.card-img-top {
+  object-fit: contain;; 
+  height: 200px;
+  width: 100%; 
+}
+.card img {
+  object-fit: contain;
+  height: 100%;
+  width: 100%;
+}
