@@ -21,7 +21,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 const app = express();
 
-const absoluteBuildPath = path.resolve(process.cwd(), 'client', 'build');
+const cyclicWorkingDir = process.env.CYCLIC_WORKING_DIR || process.cwd();
+const absoluteBuildPath = path.resolve(cyclicWorkingDir, 'client', 'build');
 //middlewares
 app.use(cors())
 app.use(express.json())
