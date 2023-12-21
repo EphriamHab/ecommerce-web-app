@@ -3,22 +3,22 @@
 Introducing our latest e-commerce venture, a seamlessly integrated platform designed for modern shopping convenience. The project is a comprehensive solution to redefine the way users shop, providing an efficient, secure, and enjoyable experience from start to finish.
 
 ## Screenshots
-![Sample Image](./images/p1.PNG)
+
 ![Home Page](./images/H2.png)
 ![Home Page](./images/H1.png)
 *Home Page*
 
-![Admin Dashboard](/images/A1.png)
-![Admin Dashboard](/images/A2.png)
+![Admin Dashboard](./images/A1.png)
+![Admin Dashboard](./images/A2.png)
 *Admin Dashboard*
 
-![User Dashboard](/images/U.png)
+![User Dashboard](./images/U.png)
 *User Dashboard*
 
-![Register Page](/images/R1.png)
+![Register Page](./images/R1.png)
 *Register Page*
 
-![Sign Up Page](/images/L1.png)
+![Sign Up Page](./images/L1.png)
 *Login page*
 
 ## Project Details
