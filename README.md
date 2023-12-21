@@ -8,17 +8,17 @@ Introducing our latest e-commerce venture, a seamlessly integrated platform desi
 ![Home Page](./images/H1.PNG)
 *Home Page*
 
-![Admin Dashboard](./images/A1.png)
-![Admin Dashboard](./images/A2.png)
+![Admin Dashboard](./images/A1.PNG)
+![Admin Dashboard](./images/A2.PNG)
 *Admin Dashboard*
 
-![User Dashboard](./images/U.png)
+![User Dashboard](./images/U.PNG)
 *User Dashboard*
 
-![Register Page](./images/R1.png)
+![Register Page](./images/R1.PNG)
 *Register Page*
 
-![Sign Up Page](./images/L1.png)
+![Sign Up Page](./images/L1.PNG)
 *Login page*
 
 ## Project Details
