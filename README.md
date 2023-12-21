@@ -4,8 +4,8 @@ Introducing our latest e-commerce venture, a seamlessly integrated platform desi
 
 ## Screenshots
 
-![Home Page](./images/H2.png)
-![Home Page](./images/H1.png)
+![Home Page](./images/H2.PNG)
+![Home Page](./images/H1.PNG)
 *Home Page*
 
 ![Admin Dashboard](./images/A1.png)
