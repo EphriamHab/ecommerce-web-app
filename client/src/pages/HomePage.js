@@ -62,7 +62,7 @@ const HomePage = () => {
     loadMore();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
-  //load more
+
 
    //add to cart
   const addToCart = (product) => {
@@ -80,6 +80,7 @@ const HomePage = () => {
     toast.success("Item Added to cart");
   };
 
+   // loadmore
   const loadMore = async () => {
     try {
       setLoading(true);
