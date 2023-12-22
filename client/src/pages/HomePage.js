@@ -70,10 +70,8 @@ const HomePage = () => {
     const existingItem = updatedCart.find((item) => item._id === product._id);
 
     if (existingItem) {
-      // If the item already exists, update its quantity
       existingItem.quantity += 1;
     } else {
-      // If the item doesn't exist, add it to the cart with quantity 1
       updatedCart.push({ ...product, quantity: 1 });
     }
 
