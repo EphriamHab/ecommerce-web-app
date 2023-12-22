@@ -57,13 +57,30 @@ const HomePage = () => {
       console.log(error);
     }
   };
-
   useEffect(() => {
     if (page === 1) return;
     loadMore();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page]);
   //load more
+
+   //add to cart
+  const addToCart = (product) => {
+    const updatedCart = [...cart];
+    const existingItem = updatedCart.find((item) => item._id === product._id);
+
+    if (existingItem) {
+      // If the item already exists, update its quantity
+      existingItem.quantity += 1;
+    } else {
+      // If the item doesn't exist, add it to the cart with quantity 1
+      updatedCart.push({ ...product, quantity: 1 });
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    toast.success("Item Added to cart");
+  };
 
   const loadMore = async () => {
     try {
@@ -195,11 +212,7 @@ const HomePage = () => {
             </button>
             <button
               className="btn btn-dark ms-1"
-              onClick={() => {
-                setCart([...cart, p]);
-                localStorage.setItem("cart", JSON.stringify([...cart, p]));
-                toast.success("Item Added to cart");
-              }}
+              onClick={() => {addToCart(p)}}
             >
               ADD TO CART
             </button>
