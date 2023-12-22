@@ -16,21 +16,22 @@ const CartPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // total price
-  const totalPrice = () => {
-    try {
-      let total = 0;
-      cart?.map((item) => {
-        total = total + item.price;
-      });
-      return total.toLocaleString("en-US", {
-        style: "currency",
-        currency: "USD",
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+ // total price
+const totalPrice = () => {
+  try {
+    let total = 0;
+    cart?.forEach((item) => {
+      total = total + item.price * item.quantity;
+    });
+    return total.toLocaleString("en-US", {
+      style: "currency",
+      currency: "USD",
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
   // delete item from cart
   const removeCartItem = (pid) => {
     try {
@@ -112,6 +113,7 @@ const CartPage = () => {
                     <p>{p.name}</p>
                     <p>{p.description.substring(0, 30)}</p>
                     <p>Price: {p.price}</p>
+                    <p>Quantity: {p.quantity}</p> 
                     <button
                       className="btn btn-danger"
                       onClick={() => removeCartItem(p._id)}
