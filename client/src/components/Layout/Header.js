@@ -7,20 +7,34 @@ import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
 import {useCart} from '../../context/cart'
 import  {Badge} from 'antd'
+import axios from "axios";
 
 const Header = () => {
   const [auth, setAuth] = useAuth();
-  const [cart] = useCart();
+  const [cart, setCart, clearCart] = useCart();
   const categories = useCategory();
-  const handleLogout = () => {
-    setAuth({
-      ...auth,
-      user: null,
-      token: "",
-    });
-    localStorage.removeItem("auth");
-    toast.success("Logout successfully");
-  };
+
+const handleLogout = async () => {
+  const loggedInUser = auth.user;
+
+  try {
+    
+    await axios.post(`/api/v1/auth/clear-cart/${loggedInUser._id}`);
+  } catch (error) {
+    console.error("Error clearing cart data on the server:", error);
+  }
+
+  clearCart();
+  setAuth({
+    ...auth,
+    user: null,
+    token: "",
+  });
+  localStorage.removeItem("auth");
+  toast.success("Logout successfully");
+};
+
+  
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
