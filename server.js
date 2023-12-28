@@ -7,6 +7,7 @@ import authRoutes from './routes/authRoute.js'
 import categoryRoutes from './routes/categoryRoutes.js'
 import productRoutes from './routes/productRoutes.js'
 import cors from 'cors'
+import session from 'express-session';
 import path from 'path'
 
 
@@ -19,11 +20,17 @@ connectDB();
 
 const app = express();
 
+const sessionSecret = process.env.SESSION_SECRET || '5gdfdhk7k75d5egu0';
 
 //middlewares
 app.use(cors())
 app.use(express.json())
 app.use(morgan('dev'))
+app.use(session({
+    secret: sessionSecret, 
+    resave: false,
+    saveUninitialized: true,
+  }));
 
 //routes
 app.use('/api/v1/auth', authRoutes)
