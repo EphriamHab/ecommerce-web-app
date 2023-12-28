@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import orderModel from "../models/orderModel.js";
 import { comparePassword, hashPassword } from "../helpers/authHelper.js";
 import JWT from "jsonwebtoken"
+import session from "express-session";
 
 export const registerController = async(req,res) =>{
 try {
@@ -97,6 +98,16 @@ export const loginController = async(req,res)=>{
     const token = await JWT.sign({_id:user._id},process.env.JWT_SECRET,{
         expiresIn:'25d',
     });
+    const userCartKey = `cart_${user._id}`;
+    const loggedInUser = req.user;
+
+    if (loggedInUser && loggedInUser._id !== user._id) {
+      req.session[userCartKey] = [];
+    }
+    
+    const userCart = req.session[userCartKey] || [];
+    req.session[userCartKey] = userCart;
+
     res.status(200).send({
         success:true,
         message:"login successfully",
@@ -274,3 +285,18 @@ export const orderStatusController = async(req,res) =>{
         })
       }
 }
+
+// clear cart controller
+
+export const  clearCartController = async(req,res) =>{
+  try {
+    const userId = req.params.userId;
+    console.log("Existing cart for user:", req.session[`cart_${userId}`]);
+    req.session[`cart_${userId}`] = [];
+    req.session.save();
+    res.sendStatus(200);
+  } catch (error) {
+    console.error("Error clearing cart data:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
