@@ -7,10 +7,17 @@ const Cartprovider = ({children}) =>{
 
     useEffect(()=>{
       let existingCartItem = localStorage.getItem('cart')
-      if(existingCartItem) setCart(JSON.parse(existingCartItem)) 
+      if (existingCartItem && Array.isArray(JSON.parse(existingCartItem))) {
+        setCart(JSON.parse(existingCartItem));
+      }
     },[])
+    const clearCart = () => {
+      setCart([]); 
+      localStorage.removeItem('cart');
+    
+    };
     return(
-        <CartContext.Provider value={[cart,setCart]}>
+        <CartContext.Provider value={[cart,setCart, clearCart]}>
            {children} 
         </CartContext.Provider>
     )
