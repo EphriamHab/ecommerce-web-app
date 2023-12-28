@@ -125,6 +125,7 @@ const HomePage = () => {
 
   useEffect(() => {
     if (checked.length || radio.length) filterProduct();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checked, radio]);
 
   // get filter product
