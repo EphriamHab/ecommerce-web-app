@@ -34,7 +34,7 @@ const Orders = () => {
             {orders?.map((o, i) => {
               return (
                 <div className="border shadow">
-                  <table className="table">
+                  <table className="table table-responsive">
                     <thead>
                       <tr>
                         <th scope="col">#</th>
