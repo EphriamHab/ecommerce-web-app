@@ -54,7 +54,8 @@ const AdminOrders = () => {
           {orders?.map((o, i) => {
             return (
               <div className="border shadow">
-                <table className="table table-responsive">
+                <div className="table-responsive">
+                <table className="table">
                   <thead>
                     <tr>
                       <th scope="col">#</th>
@@ -88,6 +89,7 @@ const AdminOrders = () => {
                     </tr>
                   </tbody>
                 </table>
+                </div>
                 <div className="container">
                   {o?.products?.map((p, i) => (
                     <div className="row mb-2 p-3 card flex-row" key={p._id}>
