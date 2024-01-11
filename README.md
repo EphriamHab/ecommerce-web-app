@@ -78,7 +78,7 @@ Braintree's API is seamlessly integrated to support a variety of payment methods
 
 The project is deployed using [Cyclic.sh](https://cyclic.sh/). You can access the deployed application at the following link:
 
-[Live Demo](https://fine-erin-wildebeest-tam.cyclic.app)
+[Live Demo](https://real-blue-scorpion-kit.cyclic.app/)
 
 ## Instructions for Deployment
 
