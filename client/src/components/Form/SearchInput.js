@@ -4,18 +4,20 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 const SearchInput = () => {
-    const [values, setValues] = useSearch();
-    const navigate = useNavigate();
-    const handleSubmit = async(e)=>{
-        e.preventDefault();
-        try {
-            const {data} = await axios.get(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/search/${values.keyword}`)
-            setValues({...values, results: data});
-            navigate('/search');
-        } catch (error) {
-            console.log(error)
-        }
+  const [values, setValues] = useSearch();
+  const navigate = useNavigate();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.get(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/search/${values.keyword}`
+      );
+      setValues({ ...values, results: data });
+      navigate("/search");
+    } catch (error) {
+      console.log(error);
     }
+  };
 
   return (
     <div>

@@ -15,27 +15,29 @@ const Profile = () => {
   const [phone, setPhone] = useState(auth?.user?.phone || "");
   const [address, setAddress] = useState("");
 
-
   //get user data
-  useEffect(()=>{
-    const {email,name,address} = auth?.user
-    setName(name)
-    setEmail(email)
-    setPhone(phone)
-    setAddress(address)
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[auth?.user])
+  useEffect(() => {
+    const { email, name, address } = auth?.user;
+    setName(name);
+    setEmail(email);
+    setPhone(phone);
+    setAddress(address);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [auth?.user]);
   // form function
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const { data } = await axios.put(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/profile`, {
-        name,
-        email,
-        password,
-        phone,
-        address,
-      });
+      const { data } = await axios.put(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/auth/profile`,
+        {
+          name,
+          email,
+          password,
+          phone,
+          address,
+        }
+      );
       if (data?.error) {
         toast.error(data?.error);
       } else {

@@ -5,8 +5,8 @@ import { useAuth } from "../../context/Auth";
 import { toast } from "react-toastify";
 import SearchInput from "../Form/SearchInput";
 import useCategory from "../../hooks/useCategory";
-import {useCart} from '../../context/cart'
-import  {Badge} from 'antd'
+import { useCart } from "../../context/cart";
+import { Badge } from "antd";
 import axios from "axios";
 
 const Header = () => {
@@ -14,27 +14,27 @@ const Header = () => {
   const [cart, setCart, clearCart] = useCart();
   const categories = useCategory();
 
-const handleLogout = async () => {
-  const loggedInUser = auth.user;
+  const handleLogout = async () => {
+    const loggedInUser = auth.user;
 
-  try {
-    
-    await axios.post(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/clear-cart/${loggedInUser._id}`);
-  } catch (error) {
-    console.error("Error clearing cart data on the server:", error);
-  }
+    try {
+      await axios.post(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/auth/clear-cart/${loggedInUser._id}`
+      );
+    } catch (error) {
+      console.error("Error clearing cart data on the server:", error);
+    }
 
-  clearCart();
-  setAuth({
-    ...auth,
-    user: null,
-    token: "",
-  });
-  localStorage.removeItem("auth");
-  toast.success("Logout successfully");
-};
+    clearCart();
+    setAuth({
+      ...auth,
+      user: null,
+      token: "",
+    });
+    localStorage.removeItem("auth");
+    toast.success("Logout successfully");
+  };
 
-  
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -138,9 +138,9 @@ const handleLogout = async () => {
               )}
               <li className="nav-item">
                 <Badge count={cart?.length} showZero>
-                <NavLink to="/cart" className="nav-link">
-                  Cart
-                </NavLink>
+                  <NavLink to="/cart" className="nav-link">
+                    Cart
+                  </NavLink>
                 </Badge>
               </li>
             </ul>

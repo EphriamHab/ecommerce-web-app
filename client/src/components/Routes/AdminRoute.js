@@ -1,25 +1,27 @@
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useAuth } from "../../context/Auth";
 import { Outlet } from "react-router-dom";
 import axios from "axios";
 import Spinner from "../Spinner";
 
-export default function AdminRoute(){
-    const [ok,setOk] = useState(false)
-    const [auth,setAuth] = useAuth()
+export default function AdminRoute() {
+  const [ok, setOk] = useState(false);
+  const [auth, setAuth] = useAuth();
 
-    useEffect(()=>{
-       const authCheck = async()=>{
-           const res = await axios.get(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/admin-auth`);
-            if(res.data.ok){
-                 setOk(true)
-            }else{
-                 setOk(false)
-        }
+  useEffect(() => {
+    const authCheck = async () => {
+      const res = await axios.get(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/auth/admin-auth`
+      );
+      if (res.data.ok) {
+        setOk(true);
+      } else {
+        setOk(false);
+      }
     };
-       if(auth?.token){
-        authCheck();
-       } 
-    },[auth?.token])
-     return ok? <Outlet/>:<Spinner/>
+    if (auth?.token) {
+      authCheck();
+    }
+  }, [auth?.token]);
+  return ok ? <Outlet /> : <Spinner />;
 }

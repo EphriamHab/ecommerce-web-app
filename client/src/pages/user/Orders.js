@@ -3,7 +3,7 @@ import Layout from "../../components/Layout/Layout";
 import UserMenu from "../../components/Layout/UserMenu";
 import { useAuth } from "../../context/Auth";
 import axios from "axios";
-import moment from 'moment'
+import moment from "moment";
 
 const Orders = () => {
   const [auth, setAuth] = useAuth();
@@ -11,7 +11,9 @@ const Orders = () => {
 
   const getOrders = async () => {
     try {
-      const { data } = await axios(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/orders`);
+      const { data } = await axios(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/auth/orders`
+      );
       setOrders(data);
     } catch (error) {
       console.log(error);
@@ -35,35 +37,35 @@ const Orders = () => {
               return (
                 <div className="border shadow">
                   <div className=" table-responsive">
-                  <table className="table">
-                    <thead>
-                      <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Status</th>
-                        <th scope="col">Buyer</th>
-                        <th scope="col"> date</th>
-                        <th scope="col">Payment</th>
-                        <th scope="col">Quantity</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>{i + 1}</td>
-                        <td>{o?.status}</td>
-                        <td>{o?.buyer?.name}</td>
-                        <td>{moment(o?.createAt).fromNow()}</td>
-                        <td>{o?.payment.success ? "Success" : "Failed"}</td>
-                        <td>{o?.products?.length}</td>
-                      </tr>
-                    </tbody>
-                  </table>
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th scope="col">#</th>
+                          <th scope="col">Status</th>
+                          <th scope="col">Buyer</th>
+                          <th scope="col"> date</th>
+                          <th scope="col">Payment</th>
+                          <th scope="col">Quantity</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>{i + 1}</td>
+                          <td>{o?.status}</td>
+                          <td>{o?.buyer?.name}</td>
+                          <td>{moment(o?.createAt).fromNow()}</td>
+                          <td>{o?.payment.success ? "Success" : "Failed"}</td>
+                          <td>{o?.products?.length}</td>
+                        </tr>
+                      </tbody>
+                    </table>
                   </div>
                   <div className="container">
                     {o?.products?.map((p, i) => (
                       <div className="row mb-2 p-3 card flex-row" key={p._id}>
                         <div className="col-md-4">
                           <img
-                            src={`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/product-photo/${p._id}`}
+                            src={`https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/product-photo/${p._id}`}
                             className="card-img-top"
                             alt={p.name}
                             width="100px"

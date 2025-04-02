@@ -1,141 +1,149 @@
-import React, { useState, useEffect } from 'react'
-import Layout from '../../components/Layout/Layout'
-import AdminMenu from '../../components/Layout/AdminMenu'
-import axios from 'axios'
-import { toast } from 'react-toastify'
-import { Select } from 'antd'
-import {useNavigate,useParams } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import Layout from "../../components/Layout/Layout";
+import AdminMenu from "../../components/Layout/AdminMenu";
+import axios from "axios";
+import { toast } from "react-toastify";
+import { Select } from "antd";
+import { useNavigate, useParams } from "react-router-dom";
 const { Option } = Select;
 
 const UpdateProduct = () => {
-    const navigate = useNavigate()
-    const params = useParams();
-    const [categories, setCategories] = useState([])
-    const [photo, setPhoto] = useState("")
-    const [name, setName] = useState("")
-    const [description, setDescription] = useState("")
-    const [category, setCategory] = useState([])
-    const [price, setPrice] = useState("")
-    const [quantity, setQuantity] = useState("")
-    const [shipping, setShipping] = useState("")
-    const [id, setId] = useState("")
+  const navigate = useNavigate();
+  const params = useParams();
+  const [categories, setCategories] = useState([]);
+  const [photo, setPhoto] = useState("");
+  const [name, setName] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState([]);
+  const [price, setPrice] = useState("");
+  const [quantity, setQuantity] = useState("");
+  const [shipping, setShipping] = useState("");
+  const [id, setId] = useState("");
 
-    //get single product
-    const getSingleProduct = async() =>{
-        try {
-          const {data} = await  axios.get(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/get-product/${params.slug}`)
-          setName(data.product.name)
-          setId(data.product._id)
-          setDescription(data.product.description)
-          setPrice(data.product.price)
-          setCategory(data.product.category._id)
-          setQuantity(data.product.quantity)
-          setShipping(data.product.shipping)
-
-        } catch (error) {
-            console.log(error)
-            toast.error("Error in Fetchig single product")
-        }
+  //get single product
+  const getSingleProduct = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/get-product/${params.slug}`
+      );
+      setName(data.product.name);
+      setId(data.product._id);
+      setDescription(data.product.description);
+      setPrice(data.product.price);
+      setCategory(data.product.category._id);
+      setQuantity(data.product.quantity);
+      setShipping(data.product.shipping);
+    } catch (error) {
+      console.log(error);
+      toast.error("Error in Fetchig single product");
     }
-  
-    useEffect(()=>{
-        getSingleProduct();
+  };
+
+  useEffect(() => {
+    getSingleProduct();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    },[])
-    //get all category
-    const getAllCategory = async () => {
-      try {
-        const { data } = await axios.get(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/category/get-category`);
-        if (data?.success) {
-          setCategories(data?.category);
-        }
-      } catch (error) {
-        console.log(error);
-        toast.error("something wrong");
+  }, []);
+  //get all category
+  const getAllCategory = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/category/get-category`
+      );
+      if (data?.success) {
+        setCategories(data?.category);
       }
-    };
-    useEffect(() => {
-      getAllCategory();
-    }, []);
-  
-    //update product
-    const handleUpdate = async(e) =>{
-      e.preventDefault();
-        try {
-          const productData  = new FormData()
-          productData.append("name",name)
-          productData.append("description",description)
-          productData.append("price",price)
-          productData.append("quantity",quantity)
-          photo && productData.append("photo",photo)
-          productData.append("category",category)
-          const {data} = await axios.put(`/api/v1/product/update-product/${id}`,productData)
-          if (data && data.success) {
-            toast.success(data.message || "Product Updated Successfully");
-            navigate("/dashboard/admin/products");
-          } else {
-            toast.error(data ? data.message : "Error in update product");
-          }
-        } catch (error ) {
-          console.log(error)
-          toast.error("Error in update product")
-        }
+    } catch (error) {
+      console.log(error);
+      toast.error("something wrong");
     }
+  };
+  useEffect(() => {
+    getAllCategory();
+  }, []);
 
-    // delete product
-    const handleDelete = async() =>{
-        try {
-           let answer = window.prompt("Are you sure want to delete this product?")
-           if(!answer) return;
-         const {data} = axios.delete(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/delete-product/${id}`)
-         toast.success("Product Deleted Successfully")  
-          navigate('/dashboard/admin/products')
-        } catch (error) {
-            console.log(error)
-            toast.error("Something wrong")
-        }
+  //update product
+  const handleUpdate = async (e) => {
+    e.preventDefault();
+    try {
+      const productData = new FormData();
+      productData.append("name", name);
+      productData.append("description", description);
+      productData.append("price", price);
+      productData.append("quantity", quantity);
+      photo && productData.append("photo", photo);
+      productData.append("category", category);
+      const { data } = await axios.put(
+        `/api/v1/product/update-product/${id}`,
+        productData
+      );
+      if (data && data.success) {
+        toast.success(data.message || "Product Updated Successfully");
+        navigate("/dashboard/admin/products");
+      } else {
+        toast.error(data ? data.message : "Error in update product");
+      }
+    } catch (error) {
+      console.log(error);
+      toast.error("Error in update product");
     }
+  };
+
+  // delete product
+  const handleDelete = async () => {
+    try {
+      let answer = window.prompt("Are you sure want to delete this product?");
+      if (!answer) return;
+      const { data } = axios.delete(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/delete-product/${id}`
+      );
+      toast.success("Product Deleted Successfully");
+      navigate("/dashboard/admin/products");
+    } catch (error) {
+      console.log(error);
+      toast.error("Something wrong");
+    }
+  };
   return (
-    <Layout title={'Dashboard - Update product'}>
-      <div className='container-fluid m-3 p-3'>
-        <div className='row'>
-          <div className='col-md-3'>
+    <Layout title={"Dashboard - Update product"}>
+      <div className="container-fluid m-3 p-3">
+        <div className="row">
+          <div className="col-md-3">
             <AdminMenu />
           </div>
-          <div className='col-md-9'>
+          <div className="col-md-9">
             <h1>Update Product</h1>
-            <div className='m-1 w-75'>
+            <div className="m-1 w-75">
               <Select
                 bordered={false}
                 placeholder="Select a category"
-                size='large'
+                size="large"
                 showSearch
-                className='form-select mb-3'
+                className="form-select mb-3"
                 onChange={(value) => {
                   setCategory(value);
                 }}
                 value={category}
-                >
+              >
                 {categories?.map((c) => (
                   <Option key={c._id} value={c._id}>
                     {c.name}
                   </Option>
                 ))}
-
               </Select>
-              <div className='mb-3'>
-                <label className='btn btn-outline-secondary col-md-12'>
+              <div className="mb-3">
+                <label className="btn btn-outline-secondary col-md-12">
                   {photo ? photo.name : "Upload Photo"}
                   <input
-                    type='file'
+                    type="file"
                     name="photo"
-                    accept='image/*'
+                    accept="image/*"
                     onChange={(e) => setPhoto(e.target.files[0])}
-                    hidden />
+                    hidden
+                  />
                 </label>
               </div>
-              <div className='mb-3'>
-              {photo ? (
+              <div className="mb-3">
+                {photo ? (
                   <div className="text-center">
                     <img
                       src={URL.createObjectURL(photo)}
@@ -147,7 +155,7 @@ const UpdateProduct = () => {
                 ) : (
                   <div className="text-center">
                     <img
-                      src={`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/product-photo/${id}`}
+                      src={`https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/product-photo/${id}`}
                       alt="product_photo"
                       height={"200px"}
                       className="img img-responsive"
@@ -155,13 +163,14 @@ const UpdateProduct = () => {
                   </div>
                 )}
               </div>
-              <div className='mb-3'>
+              <div className="mb-3">
                 <input
-                  type='text'
+                  type="text"
                   value={name}
-                  placeholder='write a name'
-                  className='form-control'
-                  onChange={(e) => setName(e.target.value)} />
+                  placeholder="write a name"
+                  className="form-control"
+                  onChange={(e) => setName(e.target.value)}
+                />
               </div>
               <div className="mb-3">
                 <textarea
@@ -201,24 +210,28 @@ const UpdateProduct = () => {
                   onChange={(value) => {
                     setShipping(value);
                   }}
-                  value={shipping ? "yes":"No" }
+                  value={shipping ? "yes" : "No"}
                 >
                   <Option value="0">No</Option>
                   <Option value="1">Yes</Option>
                 </Select>
               </div>
-              <div className='mb-3'>
-                <button className='btn btn-primary' onClick={handleUpdate}>UPDATE PRODUCT</button>
+              <div className="mb-3">
+                <button className="btn btn-primary" onClick={handleUpdate}>
+                  UPDATE PRODUCT
+                </button>
               </div>
-              <div className='mb-3'>
-                <button className='btn btn-danger' onClick={handleDelete}>DELETE PRODUCT</button>
+              <div className="mb-3">
+                <button className="btn btn-danger" onClick={handleDelete}>
+                  DELETE PRODUCT
+                </button>
               </div>
             </div>
           </div>
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default UpdateProduct
+export default UpdateProduct;

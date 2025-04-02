@@ -1,7 +1,7 @@
-import React,{useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import AdminMenu from "../../components/Layout/AdminMenu";
 import Layout from "../../components/Layout/Layout";
-import {toast} from 'react-toastify'
+import { toast } from "react-toastify";
 import moment from "moment";
 import { useAuth } from "../../context/Auth";
 import { Select } from "antd";
@@ -9,40 +9,45 @@ import axios from "axios";
 const { Option } = Select;
 
 const AdminOrders = () => {
-    const [status, setStatus] = useState([
-        'Not Process',
-        'Processing',
-        'Shipped',
-        'delivered',
-        'cancel'
-    ])
-    const [chageStatus, setChangeStatus] = useState("");
-    const [orders, setOrders] = useState([]);
-    const [auth, setAuth] = useAuth();
+  const [status, setStatus] = useState([
+    "Not Process",
+    "Processing",
+    "Shipped",
+    "delivered",
+    "cancel",
+  ]);
+  const [chageStatus, setChangeStatus] = useState("");
+  const [orders, setOrders] = useState([]);
+  const [auth, setAuth] = useAuth();
 
-    const getOrders = async () => {
-        try {
-          const { data } = await axios.get(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/all-orders`);
-          setOrders(data);
-        } catch (error) {
-          console.log(error);
+  const getOrders = async () => {
+    try {
+      const { data } = await axios.get(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/auth/all-orders`
+      );
+      setOrders(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (auth?.token) getOrders();
+  }, [auth?.token]);
+
+  const handleChange = async (orderId, value) => {
+    try {
+      const { data } = await axios.put(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/auth/orders-status/${orderId}`,
+        {
+          status: value,
         }
-      };
-    
-      useEffect(() => {
-        if (auth?.token) getOrders();
-      }, [auth?.token]);
-    
-      const handleChange = async (orderId, value) => {
-        try {
-          const { data } = await axios.put(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/orders-status/${orderId}`, {
-            status: value,
-          });
-          getOrders();
-        } catch (error) {
-          console.log(error);
-        }
-      };
+      );
+      getOrders();
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <Layout title={"All-orders"}>
       <div className="row dashboard">
@@ -55,47 +60,47 @@ const AdminOrders = () => {
             return (
               <div className="border shadow">
                 <div className="table-responsive">
-                <table className="table">
-                  <thead>
-                    <tr>
-                      <th scope="col">#</th>
-                      <th scope="col">Status</th>
-                      <th scope="col">Buyer</th>
-                      <th scope="col"> date</th>
-                      <th scope="col">Payment</th>
-                      <th scope="col">Quantity</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>{i + 1}</td>
-                      <td>
-                        <Select
-                          bordered={false}
-                          onChange={(value) => handleChange(o._id, value)}
-                          defaultValue={o?.status}
-                        >
-                          {status.map((s, i) => (
-                            <Option key={i} value={s}>
-                              {s}
-                            </Option>
-                          ))}
-                        </Select>
-                      </td>
-                      <td>{o?.buyer?.name}</td>
-                      <td>{moment(o?.createAt).fromNow()}</td>
-                      <td>{o?.payment.success ? "Success" : "Failed"}</td>
-                      <td>{o?.products?.length}</td>
-                    </tr>
-                  </tbody>
-                </table>
+                  <table className="table">
+                    <thead>
+                      <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">Buyer</th>
+                        <th scope="col"> date</th>
+                        <th scope="col">Payment</th>
+                        <th scope="col">Quantity</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{i + 1}</td>
+                        <td>
+                          <Select
+                            bordered={false}
+                            onChange={(value) => handleChange(o._id, value)}
+                            defaultValue={o?.status}
+                          >
+                            {status.map((s, i) => (
+                              <Option key={i} value={s}>
+                                {s}
+                              </Option>
+                            ))}
+                          </Select>
+                        </td>
+                        <td>{o?.buyer?.name}</td>
+                        <td>{moment(o?.createAt).fromNow()}</td>
+                        <td>{o?.payment.success ? "Success" : "Failed"}</td>
+                        <td>{o?.products?.length}</td>
+                      </tr>
+                    </tbody>
+                  </table>
                 </div>
                 <div className="container">
                   {o?.products?.map((p, i) => (
                     <div className="row mb-2 p-3 card flex-row" key={p._id}>
                       <div className="col-md-4">
                         <img
-                          src={`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/product-photo/${p._id}`}
+                          src={`https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/product-photo/${p._id}`}
                           className="card-img-top"
                           alt={p.name}
                           width="100px"

@@ -16,21 +16,21 @@ const CartPage = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
- // total price
-const totalPrice = () => {
-  try {
-    let total = 0;
-    cart?.forEach((item) => {
-      total = total + item.price * item.quantity;
-    });
-    return total.toLocaleString("en-US", {
-      style: "currency",
-      currency: "USD",
-    });
-  } catch (error) {
-    console.log(error);
-  }
-};
+  // total price
+  const totalPrice = () => {
+    try {
+      let total = 0;
+      cart?.forEach((item) => {
+        total = total + item.price * item.quantity;
+      });
+      return total.toLocaleString("en-US", {
+        style: "currency",
+        currency: "USD",
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // delete item from cart
   const removeCartItem = (pid) => {
@@ -48,7 +48,9 @@ const totalPrice = () => {
   //get payment gateway
   const getToken = async () => {
     try {
-      const { data } = await axios.get(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/braintree/token`);
+      const { data } = await axios.get(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/braintree/token`
+      );
       setClientToken(data?.clientToken);
     } catch (error) {
       console.log(error);
@@ -58,24 +60,27 @@ const totalPrice = () => {
     getToken();
   }, [auth?.token]);
 
-
-  const handlePayment = async()=>{
-       try {
-        setLoading(true)
-        const {nonce} = await instance.requestPaymentMethod()
-        const {data} = await axios.post(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/braintree/payment`,{
-          nonce, cart
-        })
-        setLoading(false)
-        localStorage.removeItem('cart')
-        setCart([])
-        navigate('/dashboard/user/orders')
-        toast.success("Payment Completed Successfully")
-       } catch (error) {
-        console.log(error)
-        setLoading(false)
-       }
-  }
+  const handlePayment = async () => {
+    try {
+      setLoading(true);
+      const { nonce } = await instance.requestPaymentMethod();
+      const { data } = await axios.post(
+        `https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/braintree/payment`,
+        {
+          nonce,
+          cart,
+        }
+      );
+      setLoading(false);
+      localStorage.removeItem("cart");
+      setCart([]);
+      navigate("/dashboard/user/orders");
+      toast.success("Payment Completed Successfully");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
   return (
     <Layout>
       <div className="container">
@@ -102,7 +107,7 @@ const totalPrice = () => {
                 <div className="col-md-4">
                   <div className="col-md-4">
                     <img
-                      src={`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/product-photo/${p._id}`}
+                      src={`https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/product-photo/${p._id}`}
                       className="card-img-top"
                       alt={p.name}
                       width="100px"
@@ -113,7 +118,7 @@ const totalPrice = () => {
                     <p>{p.name}</p>
                     <p>{p.description.substring(0, 30)}</p>
                     <p>Price: {p.price}</p>
-                    <p>Quantity: {p.quantity}</p> 
+                    <p>Quantity: {p.quantity}</p>
                     <button
                       className="btn btn-danger"
                       onClick={() => removeCartItem(p._id)}
