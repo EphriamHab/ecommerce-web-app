@@ -78,7 +78,7 @@ Braintree's API is seamlessly integrated to support a variety of payment methods
 
 The project is deployed using [Cyclic.sh](https://cyclic.sh/). You can access the deployed application at the following link:
 
-[Live Demo](https://real-blue-scorpion-kit.cyclic.app/)
+[Live Demo](https://ecommerce-web-app-pi-sage.vercel.app/)
 
 ## Instructions for Deployment
 
@@ -89,9 +89,9 @@ The project is deployed using [Cyclic.sh](https://cyclic.sh/). You can access th
    # Build the project
    npm run build
 
-   # Deploy using Cyclic.sh
+   # Deploy using Vercel
    # Add specific deployment commands or details as needed
-   cyclic deploy
+   Vercel deploy
 
 
 # License
