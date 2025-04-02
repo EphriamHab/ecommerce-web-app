@@ -19,7 +19,7 @@ const handleLogout = async () => {
 
   try {
     
-    await axios.post(`/api/v1/auth/clear-cart/${loggedInUser._id}`);
+    await axios.post(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/clear-cart/${loggedInUser._id}`);
   } catch (error) {
     console.error("Error clearing cart data on the server:", error);
   }

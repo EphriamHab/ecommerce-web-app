@@ -21,7 +21,7 @@ const CreateProduct = () => {
   //get all category
   const getAllCategory = async () => {
     try {
-      const { data } = await axios.get("/api/v1/category/get-category");
+      const { data } = await axios.get(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/category/get-category`);
       if (data?.success) {
         setCategories(data?.category);
       }
@@ -46,7 +46,7 @@ const CreateProduct = () => {
         productData.append("photo",photo)
         productData.append("name",name)
         productData.append("category",category)
-        const {data} = await axios.post('/api/v1/product/create-product',productData)
+        const {data} = await axios.post(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/product/create-product`,productData)
          if(data?.success){
           toast.success("Product created Sucessfully")
           navigate('/dashboard/admin/products')

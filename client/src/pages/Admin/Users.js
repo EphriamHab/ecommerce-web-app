@@ -9,7 +9,7 @@ const Users = () => {
   useEffect(() => {
     const fetchUsers = async () => {
       try {
-        const response = await axios.get("/api/v1/auth/all-users");
+        const response = await axios.get(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/all-users`);
         setUsers(response.data);
       } catch (error) {
         console.error("Error fetching users:", error);

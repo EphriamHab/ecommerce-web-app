@@ -17,7 +17,7 @@ const Login = () => {
     const handleSubmit = async(e)=>{
         e.preventDefault();
         try {
-           const res = await axios.post(`/api/v1/auth/login`,
+           const res = await axios.post(`${import.meta.env.REACT_APP_BACKEND_BASEURL}/api/v1/auth/login`,
            { email,password}
         );
         if(res && res.data.success){
