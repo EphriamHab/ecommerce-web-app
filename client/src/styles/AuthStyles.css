@@ -1,64 +1,65 @@
-/* ===================================
-========= register page  */
+/* ===========================
+   Professional Register Page
+=========================== */
 .form-container {
-  margin-top: 0px;
+  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 70vh;
-  flex-direction: column;
-  background-color: #ffdee9;
-  background-image: linear-gradient(0deg, #c0b3be 0%, #aa56bd 100%);
+  padding: 40px 20px;
+  background: linear-gradient(135deg, #f5f7fa, #c3cfe2);
+
 }
 
 .form-container form {
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  padding: 20px;
-  background-color: #fff;
-  margin-bottom: 10px;
+  width: 100%;
+  max-width: 500px;
+  background: #ffffff;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
 }
 
-.form-container form .title {
+.form-container h1 {
   text-align: center;
-  margin-bottom: 15px;
-  font-weight: bold;
-  font-family: "Playfair Display", serif;
+  margin-bottom: 25px;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  color: #333;
 }
 
 .form-container form input {
-  border: none;
-  border-bottom: 1px solid #000;
-  border-radius: 0;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 10px 14px;
+  width: 100%;
+  margin-bottom: 16px;
+  font-size: 15px;
 }
 
 .form-container form button {
-  border: 1px solid black;
-  border-radius: 0;
-  background-color: #000;
-  color: white;
-  width: 250px;
+  width: 100%;
+  background-color: #4e54c8;
+  border: none;
+  color: #fff;
+  padding: 12px;
+  border-radius: 6px;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 .form-container form button:hover {
-  border: 1px solid black;
-  background: #000000; /* fallback for old browsers */
-  background: -webkit-linear-gradient(
-    to right,
-    #434343,
-    #000000
-  );
-  background: linear-gradient(
-    to right,
-    #434343,
-    #000000
-  ); 
+  background-color: #3b40a0;
 }
 
 .forgot-btn {
-  background-color: #434343a4 !important;
-  border: 0 !important;
+  background-color: transparent !important;
+  color: #4e54c8 !important;
+  border: none !important;
+  margin-top: 10px;
 }
 
 .forgot-btn:hover {
-  color: white !important;
+  text-decoration: underline;
+  color: #3b40a0 !important;
 }
