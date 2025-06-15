@@ -8,13 +8,14 @@ const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
-  const [relatedProducts, setRelatedProducts] = useState([]);
+  const [relatedProducts, setRelatedProducts] = useState(null);
+  const [loadingSimilar, setLoadingSimilar] = useState(false); // 👈 NEW
 
   //initial details
   useEffect(() => {
     if (params?.slug) getProduct();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.slug]);
+
   //get product
   const getProduct = async () => {
     try {
@@ -27,17 +28,22 @@ const ProductDetails = () => {
       console.log(error);
     }
   };
+
   //get similar product
   const getSimilarProduct = async (pid, cid) => {
     try {
+      setLoadingSimilar(true); // 👈 START loading
       const { data } = await axios.get(
         `https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
+      setLoadingSimilar(false); // 👈 END loading
     } catch (error) {
       console.log(error);
+      setLoadingSimilar(false);
     }
   };
+
   return (
     <Layout>
       <div className="row container product-details">
@@ -59,45 +65,58 @@ const ProductDetails = () => {
           <button className="btn btn-secondary ms-1">ADD TO CART</button>
         </div>
       </div>
+
       <hr />
+
       <div className="row container similar-products">
         <h4>Similar Products ➡️</h4>
-        {relatedProducts.length < 1 && (
+
+        {loadingSimilar || relatedProducts === null ? (
+          <div
+            className="d-flex justify-content-center align-items-center w-100"
+            style={{ minHeight: "150px" }}
+          >
+            <div className="spinner-border text-primary" role="status">
+              <span className="visually-hidden">Loading...</span>
+            </div>
+          </div>
+        ) : relatedProducts.length === 0 ? (
           <p className="text-center">No Similar Products found</p>
-        )}
-        <div className="d-flex flex-wrap">
-          {relatedProducts?.map((p) => (
-            <div className="card m-2" key={p._id}>
-              <img
-                src={`https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/product-photo/${p._id}`}
-                className="card-img-top"
-                alt={p.name}
-              />
-              <div className="card-body">
-                <div className="card-name-price">
-                  <h5 className="card-title">{p.name}</h5>
-                  <h5 className="card-title card-price">
-                    {p.price.toLocaleString("en-US", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
-                  </h5>
-                </div>
-                <p className="card-text ">
-                  {p.description.substring(0, 60)}...
-                </p>
-                <div className="card-name-price">
-                  <button
-                    className="btn btn-info ms-1"
-                    onClick={() => navigate(`/product/${p.slug}`)}
-                  >
-                    More Details
-                  </button>
+        ) : (
+          <div className="d-flex flex-wrap">
+            {relatedProducts.map((p) => (
+              <div className="card m-2" key={p._id}>
+                <img
+                  src={`https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/product-photo/${p._id}`}
+                  className="card-img-top"
+                  alt={p.name}
+                />
+                <div className="card-body">
+                  <div className="card-name-price">
+                    <h5 className="card-title">{p.name}</h5>
+                    <h5 className="card-title card-price">
+                      {p.price.toLocaleString("en-US", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </h5>
+                  </div>
+                  <p className="card-text">
+                    {p.description.substring(0, 60)}...
+                  </p>
+                  <div className="card-name-price">
+                    <button
+                      className="btn btn-info ms-1"
+                      onClick={() => navigate(`/product/${p.slug}`)}
+                    >
+                      More Details
+                    </button>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </Layout>
   );
