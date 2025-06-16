@@ -3,13 +3,16 @@ import Layout from "../components/Layout/Layout";
 import axios from "axios";
 import { useParams, useNavigate } from "react-router-dom";
 import "../styles/ProductDetailsStyles.css";
+import { useCart } from "../context/cart";
+import { toast } from "react-toastify";
 
 const ProductDetails = () => {
   const params = useParams();
   const navigate = useNavigate();
   const [product, setProduct] = useState({});
+  const [cart, setCart] = useCart();
   const [relatedProducts, setRelatedProducts] = useState(null);
-  const [loadingSimilar, setLoadingSimilar] = useState(false); // 👈 NEW
+  const [loadingSimilar, setLoadingSimilar] = useState(false);
 
   //initial details
   useEffect(() => {
@@ -29,15 +32,30 @@ const ProductDetails = () => {
     }
   };
 
+  const addToCart = (product) => {
+    const updatedCart = [...cart];
+    const existingItem = updatedCart.find((item) => item._id === product._id);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      updatedCart.push({ ...product, quantity: 1 });
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    toast.success("Item Added to cart");
+  };
+
   //get similar product
   const getSimilarProduct = async (pid, cid) => {
     try {
-      setLoadingSimilar(true); // 👈 START loading
+      setLoadingSimilar(true);
       const { data } = await axios.get(
         `https://ecommerce-web-app-gcjn.vercel.app/api/v1/product/related-product/${pid}/${cid}`
       );
       setRelatedProducts(data?.products);
-      setLoadingSimilar(false); // 👈 END loading
+      setLoadingSimilar(false);
     } catch (error) {
       console.log(error);
       setLoadingSimilar(false);
@@ -62,7 +80,12 @@ const ProductDetails = () => {
           <h6>Description: {product.description}</h6>
           <h6>Price: {product.price}</h6>
           <h6>Category: {product?.category?.name}</h6>
-          <button className="btn btn-secondary ms-1">ADD TO CART</button>
+          <button
+            className="btn btn-secondary ms-1"
+            onClick={() => addToCart(product)}
+          >
+            ADD TO CART
+          </button>
         </div>
       </div>
 
