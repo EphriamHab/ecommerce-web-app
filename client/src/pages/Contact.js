@@ -1,37 +1,34 @@
-import React from 'react'
-import Layout from './../components/Layout/Layout'
-import { BiMailSend, BiPhoneCall, BiSupport } from "react-icons/bi";
+import React from 'react';
+import Layout from './../components/Layout/Layout';
+import { BiMailSend, BiPhoneCall } from "react-icons/bi";
 
 const Contact = () => {
   return (
     <Layout title={'Contact Us'}>
-        <div className="row contactus ">
-        <div className="col-md-6 ">
+      <div className="row contactus">
+        <div className="col-md-6">
           <img
             src="/images/contactus.jpeg"
-            alt="contactus"
+            alt="Contact Us"
             style={{ width: "100%" }}
           />
         </div>
         <div className="col-md-4">
-          <h1 className="bg-dark p-2 text-white text-center">CONTACT US</h1>
-          <p className="text-justify mt-2">
-            Any question and information about prodduct feel free to call anytime we 24X7
-            avialible
+          <h1 className="bg-dark p-2 text-white text-center">Get in Touch</h1>
+          <p className="mt-3 text-justify">
+            Have questions about our products or services? We're here to help. 
+            Reach out to us anytime — we're available 24/7.
           </p>
           <p className="mt-3">
-            <BiMailSend /> : ephremhabtamu2015@gmail.com
+            <BiMailSend /> <strong>Email:</strong> ephremhabtamu2015@gmail.com
           </p>
           <p className="mt-3">
-            <BiPhoneCall /> : +251 977018301
+            <BiPhoneCall /> <strong>Phone:</strong> +251 977 018 301
           </p>
-          {/* <p className="mt-3">
-            <BiSupport /> : 1800-0000-0000 (toll free)
-          </p> */}
         </div>
       </div>
     </Layout>
-  )
-}
+  );
+};
 
-export default Contact
+export default Contact;
