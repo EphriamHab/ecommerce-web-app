@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Layout from "../components/Layout/Layout";
 import { useParams, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { useCart } from "../context/cart";
+import { toast } from "react-toastify";
 import "../styles/CategoryProductStyles.css";
 
 const CategoryProduct = () => {
@@ -9,11 +11,11 @@ const CategoryProduct = () => {
   const navigate = useNavigate();
   const [products, setProducts] = useState([]);
   const [category, setCategory] = useState({});
-  const [loading, setLoading] = useState(true); // Add loading state
+  const [loading, setLoading] = useState(true);
+  const [cart, setCart] = useCart(); // use cart context
 
   useEffect(() => {
     if (params?.slug) getProductByCategory();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params?.slug]);
 
   const getProductByCategory = async () => {
@@ -31,6 +33,21 @@ const CategoryProduct = () => {
     }
   };
 
+  const addToCart = (product) => {
+    const updatedCart = [...cart];
+    const existingItem = updatedCart.find((item) => item._id === product._id);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      updatedCart.push({ ...product, quantity: 1 });
+    }
+
+    setCart(updatedCart);
+    localStorage.setItem("cart", JSON.stringify(updatedCart));
+    toast.success("Item added to cart");
+  };
+
   return (
     <Layout>
       <div className="container mt-3 category">
@@ -43,7 +60,10 @@ const CategoryProduct = () => {
         <div className="row">
           <div className="col-md-9 offset-1">
             {loading ? (
-              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "200px" }}>
+              <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ minHeight: "200px" }}
+              >
                 <div className="spinner-border text-primary" role="status">
                   <span className="visually-hidden">Loading...</span>
                 </div>
@@ -72,12 +92,15 @@ const CategoryProduct = () => {
                       </p>
                       <div className="card-name-price">
                         <button
-                          className="btn btn-info ms-1"
+                          className="btn btn-primary ms-1"
                           onClick={() => navigate(`/product/${p.slug}`)}
                         >
                           More Details
                         </button>
-                        <button className="btn btn-secondary ms-1">
+                        <button
+                          className="btn btn-secondary ms-1"
+                          onClick={() => addToCart(p)}
+                        >
                           ADD TO CART
                         </button>
                       </div>
